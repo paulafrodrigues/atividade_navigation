@@ -19,6 +19,10 @@ class HomeController {
     init();
   }
 
+  Future<bool> logout() async {
+    return await prefs.clear();
+  }
+
   void updateState(HomeState newState) {
     state = newState;
     onUpdate();
@@ -26,7 +30,6 @@ class HomeController {
 
   Future<void> init() async {
     updateState(HomeStateLoading());
-
 
     prefs = await SharedPreferences.getInstance();
     //await prefs.remove(SharedPreferencesKeys.notes);
@@ -43,8 +46,6 @@ class HomeController {
         updateState(HomeStateSuccess());
       }
     } else {
-
-
       updateState(HomeStateEmpty());
     }
   }
@@ -52,12 +53,9 @@ class HomeController {
   Future<void> addNote({required NoteModel note}) async {
     updateState(HomeStateLoading());
 
-
     myNotes.add(note);
-
 
     prefs.setString(SharedPreferencesKeys.notes, jsonEncode(myNotes));
     updateState(HomeStateSuccess());
   }
-
 }

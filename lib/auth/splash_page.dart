@@ -7,7 +7,6 @@ import '../login/login_page.dart';
 import 'splash_controller.dart';
 import 'splash_sate.dart';
 
-
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -25,15 +24,14 @@ class _SplashPageState extends State<SplashPage> {
       (value) async {
         controller.isAuthenticated().then((value) {
           if (value.runtimeType == SplashStateAuthenticated) {
-
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => HomePage(user: controller.user),
+                  builder: (_) => const HomePage(
+                    name: 'Paula',
+                  ),
                 ));
           } else {
-
-
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

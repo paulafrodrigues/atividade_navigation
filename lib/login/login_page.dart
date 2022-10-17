@@ -25,125 +25,130 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: Colors.blueGrey[600],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          child: ListView(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    hintText: 'Informe seu primeiro nome.',
-                    labelText: 'Nome',
-                    icon: const Icon(Icons.person),
-                  ),
-                  validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !nameRegExp.hasMatch(value)) {
-                      return 'Informe um nome válido!';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    hintText: 'Preencha corretamente o e-mail',
-                    labelText: 'Email',
-                    icon: const Icon(Icons.mail_outline),
-                  ),
-                  validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !EmailValidator.validate(value)) {
-                      return 'Preencha corretamente o e-mail';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
+        appBar: AppBar(
+          title: const Text('Login'),
+          backgroundColor: Colors.blueGrey[600],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            onChanged: () => setState(() {}),
+            child: ListView(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      labelText: 'Password',
-                      icon: const Icon(Icons.password)),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Por favor informe a senha';
-                    } else {
-                      bool result = validatePassword(value);
-                      if (result) {
-                        return null;
+                      hintText: 'Informe seu primeiro nome.',
+                      labelText: 'Nome',
+                      icon: const Icon(Icons.person),
+                    ),
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !nameRegExp.hasMatch(value)) {
+                        return 'Informe um nome válido!';
                       } else {
-                        return 'A senha deve ter no mínimo 8 dígitos e conter letra maiúscula, letra minuscula, número e caractere especial';
+                        return null;
                       }
-                    }
-                  },
+                    },
+                  ),
                 ),
-              ),
-              ElevatedButton(onPressed: _formKey.currentState?.validate() == true ? () {
-                showDialog(
-                  context: context,
-                  builder: (context) => const Center(child: CircularProgressIndicator(),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      hintText: 'Preencha corretamente o e-mail',
+                      labelText: 'Email',
+                      icon: const Icon(Icons.mail_outline),
+                    ),
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !EmailValidator.validate(value)) {
+                        return 'Preencha corretamente o e-mail';
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                );
-                final user = UserModel(
-                  name: nameTextController.text,
-                  email: emailTextController.text,
-                  password: passwordTextController.text,
-                );
-                controller
-                .login(user: user,)
-                .then((value) {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage(user: user,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Senha',
+                        icon: const Icon(Icons.password)),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Por favor informe a senha';
+                      } else {
+                        bool result = validatePassword(value);
+                        if (result) {
+                          return null;
+                        } else {
+                          return 'A senha deve ter no mínimo 8 dígitos e conter letra maiúscula, letra minuscula, número e caractere especial';
+                        }
+                      }
+                    },
                   ),
-                  ));
-                });
-              }
-              : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff3e3e3c),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(80, 80))),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('Logar'),
-                  SizedBox(
-                    width: 8,
+                ),
+                ElevatedButton(
+                  onPressed: _formKey.currentState?.validate() == true
+                      ? () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+
+                          controller
+                              .login(
+                                  name: nameTextController.text,
+                                  email: emailTextController.text,
+                                  password: passwordTextController.text)
+                              .then((value) {
+                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const HomePage(
+                                    name: 'Paula',
+                                  ),
+                                ));
+                          });
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff3e3e3c),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text('Logar'),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Icon(Icons.navigate_next_rounded)
+                    ],
                   ),
-                  Icon(Icons.navigate_next_rounded)
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+          ),
+        ));
+  }
 }

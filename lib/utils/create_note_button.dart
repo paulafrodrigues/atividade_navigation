@@ -19,10 +19,9 @@ class CreateNoteButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF3E3E3C),
         shape: RoundedRectangleBorder(
-            borderRadius: small == true
-                ? const BorderRadius.vertical(top: Radius.elliptical(80, 80))
-                : const BorderRadius.vertical(
-                    bottom: Radius.elliptical(80, 80))),
+            borderRadius: BorderRadius.circular(18.0)
+            
+                  ),
       ),
       child: const Icon(Icons.edit),
     );
